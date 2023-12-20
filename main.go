@@ -27,15 +27,15 @@ var commands = []Command{
 		Name: "ski ba",
 		Args: 1,
 		Run: func(args []int) string {
-            char := string(rune(args[0]))
-            if char == "\n" {
-                char = "0xA"
-            } else {
-                char = "'"+char+"'"
-            }
+			char := string(rune(args[0]))
+			if char == "\n" {
+				char = "0xA"
+			} else {
+				char = "'" + char + "'"
+			}
 			return fmt.Sprintf("mov byte [buff], %s\nmov eax, 0x4\nmov ebx, 0x1\nmov ecx, buff\nmov edx, 0x1\nint 0x80\n", char)
 		},
-	}, 
+	},
 }
 
 func main() {
@@ -70,8 +70,8 @@ func generateExecutable(name string, data string) {
 		returnError(err.Error())
 	}
 
-    cmd = exec.Command("rm", binName+".asm", binName+".o")
-    cmd.Run()
+	cmd = exec.Command("rm", binName+".asm", binName+".o")
+	_ = cmd.Run()
 }
 
 func getContent() string {
@@ -189,7 +189,7 @@ func runCommand(commandName string, startCommand Token, args []int) string {
 		}
 	}
 
-	returnError(fmt.Sprintf("Invalid command '%s' %d:%d", commandName, startCommand.Line, startCommand.Column))
+	returnError(fmt.Sprintf("Invalid command '%s' %d:%d", commandName, startCommand.Line-1, startCommand.Column))
 	return ""
 }
 
